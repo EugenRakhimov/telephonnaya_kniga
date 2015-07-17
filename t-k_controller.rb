@@ -27,7 +27,7 @@ class TelephonnayaController
     elsif @command == "Delete"
       delete_contact(@name)
     elsif @command == "Exit"
-      exit
+      @telephonnaya_view.exit_tele_kniga
     else
       @telephonnaya_view.display_error
       @telephonnaya_view.display_help
@@ -46,8 +46,7 @@ class TelephonnayaController
   end
 
   def add_contact name
-    input = @telephonnaya_view.get_add_details
-    input_array = input.split("")
+    input = @telephonnaya_view.enter_phone_email
     phone = input_array[0]
     email = input_array[1]
     @telephonnaya_model.add_person(name, phone, email)
