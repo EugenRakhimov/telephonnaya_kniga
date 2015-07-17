@@ -1,31 +1,36 @@
 require_relative "./t-k_model.rb"
-require_relative "./t-k_view.rb"
-
-get command from t-k_view
-query t-k_model
+require_relative "./phone_book_view.rb"
 
 class TelephonnayaController
   attr_reader :telephonnaya_model, :telephonnaya_view
   def initialize(file_path)
     @telephonnaya_model = TelephonnayaModel.new(file_path)
     @telephonnaya_view = TelephonnayaView.new
+    @list = []
+    @person = {}
+    @command = ""
+    @name = ""
   end
 
   def open
-    @telephonnaya_view.display_menu
+    input = @telephonnaya_view.display_help #=> returns string "<command>: <name(optional)"
+    input_array = input.split(":")
+    @command = input_array[0]
+    @name = input_array[1].strip
   end
 
   def get_list
-    @telephonnaya_model.get_list
+    @list = @telephonnaya_model.list_all_names
   end
 
-  def get_person first_name, last_name
-    @telephonnaya_model.get_person(first_name, last_name)
+  def find_by_name name
+    @telephonnaya_view.get_person
+    @telephonnaya_model.find_by_name(name)
   end
 
   def show_list
-    list = get_contacts #=> array of hashes
-    @telephonnaya_view.display_list
+    @list = get_list #=> array of hashes
+    @telephonnaya_view.display_list(@list)
   end
 
   def show_details
