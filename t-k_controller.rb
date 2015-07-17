@@ -4,7 +4,7 @@ require_relative "./phone_book_view.rb"
 class TelephonnayaController
   attr_reader :telephonnaya_model, :telephonnaya_view
   def initialize(file_path)
-    @telephonnaya_model = TelephonnayaModel.new(file_path)
+    @telephonnaya_model = ContactsBook.new(file_path)
     @telephonnaya_view = TelephonnayaView.new
     @list = []
     @person = {}
