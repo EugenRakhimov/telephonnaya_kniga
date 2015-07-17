@@ -13,51 +13,48 @@ class TelephonnayaController
   end
 
   def open
-    input = @telephonnaya_view.display_help #=> returns string "<command>: <name(optional)"
+    input = @telephonnaya_view.display_help #=> returns string "<command>: <name(optional)>"
     input_array = input.split(":")
     @command = input_array[0]
     @name = input_array[1].strip
+
+    if @command == "Display"
+      display_list
+    elsif @command == "Search"
+      display_person(@name)
+    elsif @command == "Add"
+      add_contact(@name)
+    elsif @command == "Delete"
+      delete_contact(@name)
+    elsif @command == "Exit"
+      exit
+    else
+      @telephonnaya_view.display_error
+      @telephonnaya_view.display_help
+    end
+
   end
 
-  def get_list
+  def display_list
     @list = @telephonnaya_model.list_all_names
-  end
-
-  def find_by_name name
-    @telephonnaya_view.get_person
-    @telephonnaya_model.find_by_name(name)
-  end
-
-  def show_list
-    @list = get_list #=> array of hashes
     @telephonnaya_view.display_list(@list)
   end
 
-  def show_details
-    get_person
-    @telephonnaya_view.display_person_information(first_name, last_name, phone, email)
+  def display_person name
+    details = telephonnaya_model.find_by_name(name)
+    @telephonnaya_view.display_person_information(details)
   end
 
-  def add_contact
+  def add_contact name
     input = @telephonnaya_view.get_add_input
     input_array = input.split("")
-    first_name = input_array[0]
-    last_name = input_array[1]
-    phone = input_array[2]
-    email = input_array[3]
-    @telephonnaya_model.add_person(first_name, last_name, phone, email)
+    phone = input_array[0]
+    email = input_array[1]
+    @telephonnaya_model.add_person(name, phone, email)
   end
 
-  def delete_contact
-    contact_id = @telephonnaya_view.get_delete_input
-    @telephonnaya_model.delete_contact(contact_id)
-  end
-
-
-  end
-
-  def display_help
-    @telephonnaya_view.display_help
+  def delete_contact name
+    @telephonnaya_model.delete_contact(name)
   end
 
 end
