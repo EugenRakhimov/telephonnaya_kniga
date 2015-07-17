@@ -44,7 +44,9 @@ class TelephonnayaController
   end
 
   def delete_contact
-    input = @telephonnaya_view.get_delete_input
+    contact_id = @telephonnaya_view.get_delete_input
+    @telephonnaya_model.delete_contact(contact_id)
+  end
 
 
   end
