@@ -13,31 +13,28 @@ class TelephonnayaController
   end
 
   def open
-      @command = "Start"
+    @command = "Start"
     while @command != "Exit"
-    input = @telephonnaya_view.display_help #=> returns string "<command>: <name(optional)>"
-    input_array = input.split(":")
-    @command = input_array[0]
-    @name = input_array[1].strip if input_array[1] != nil
-
-
-
-    if @command == "Display"
-      display_list
-    elsif @command == "Search"
-      display_person(@name)
-    elsif @command == "Add"
-      add_contact(@name)
-    elsif @command == "Delete"
-      delete_contact(@name)
-    elsif @command == "Exit"
-      exit
-    else
-      @telephonnaya_view.display_error
-      @telephonnaya_view.display_help
+      input = @telephonnaya_view.display_help #=> returns string "<command>: <name(optional)>"
+      input_array = input.split(":")
+      @command = input_array[0].downcase
+      @name = input_array[1].strip if input_array[1] != nil
+      if @command == "display"
+        display_list
+      elsif @command == "search"
+        display_person(@name)
+      elsif @command == "add"
+        add_contact(@name)
+      elsif @command == "delete"
+        delete_contact(@name)
+      elsif @command == "exit"
+        @telephonnaya_view.exit_tele_kniga
+        exit
+      else
+        @telephonnaya_view.display_error
+        @telephonnaya_view.display_help
+      end
     end
-    end
-
   end
 
   def display_list
@@ -49,12 +46,11 @@ class TelephonnayaController
     details = telephonnaya_model.find_by_name(name)
     for detail in details
       @telephonnaya_view.display_person_information(detail.name, detail.phone, detail.email)
-  end
+    end
   end
 
   def add_contact name
     input_array = @telephonnaya_view.enter_phone_email
-     # = input.split("")
     phone = input_array[0]
     email = input_array[1]
     @telephonnaya_model.add_contact({name:name,phone:phone,email:email, group: nil})
