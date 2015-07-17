@@ -5,7 +5,7 @@ class TelephonnayaController
   attr_reader :telephonnaya_model, :telephonnaya_view
   def initialize(file_path)
     @telephonnaya_model = ContactsBook.new(file_path)
-    @telephonnaya_view = TelephonnayaView.new
+    @telephonnaya_view = PhoneBookView.new
     @list = []
     @person = {}
     @command = ""
@@ -16,7 +16,7 @@ class TelephonnayaController
     input = @telephonnaya_view.display_help #=> returns string "<command>: <name(optional)>"
     input_array = input.split(":")
     @command = input_array[0]
-    @name = input_array[1].strip
+    @name = input_array[1].strip if input_array[1] != nil
 
     if @command == "Display"
       display_list
@@ -42,7 +42,9 @@ class TelephonnayaController
 
   def display_person name
     details = telephonnaya_model.find_by_name(name)
-    @telephonnaya_view.display_person_information(details)
+    for detail in details
+      @telephonnaya_view.display_person_information(detail.name, detail.phone, detail.email)
+  end
   end
 
   def add_contact name

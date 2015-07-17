@@ -15,16 +15,16 @@ class PhoneBookView
     p "The Comrade List:"
     p "*" * 17
     args.each do |contact|
-      p contact.first_name + " " + contact.last_name
+      p contact.name
     end
     p "*" * 17
   end
 
-  def display_person_information#(first_name, last_name, phone, email)
+  def display_person_information(name, phone, email)
     p "*" * 27
-    p "Comrade: #{first_name} #{last_name}"
+    p "Comrade:   #{name}"
     p "Telephone: #{phone}"
-    p "Internet: #{email}"
+    p "Internet:  #{email}"
     p "*" * 27
   end
 
