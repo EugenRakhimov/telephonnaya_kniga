@@ -1,5 +1,6 @@
 require 'csv'
 class Contact
+  attr_reader :name, :phone, :email, :group
   def initialize(contact_hash)
     @name = contact_hash["name"]
     @phone = contact_hash["phone"]
@@ -28,17 +29,26 @@ class Contact
 end
 class ContactsBook
   def initialize(filename)
-    @file=TkBookFile.new(filename)
-    @contacts=@file.parse
+    @file = TkBookFile.new(filename)
+    @contacts = []
+    @contacts = @file.parse
    end
    def add_contact(contact_hash)
-      @contacts << Contact.new(contact_hash)
+      p contact_hash
+       contact =Contact.new(contact_hash)
+      @contacts << contact
+      @file.add_line_to_file(contact.return_an_array)
    end
    def delete_contact(id)
      contact_to_delete =@contacts[id-1]
      @contact.delete(contact_to_delete)
+     @file.rewrite
    end
-   def
+   def list_all_names
+       return @contacts.sort{|x,y| x.name <=> y.name}
+   end
+   def find_by_name(name)
+     return @contacts.select{|contact| contact.name == name}
    end
 end
 
@@ -48,24 +58,36 @@ class TkBookFile
    @list = []
   end
   def parse
+    if File.file?(@file)
      CSV.foreach(@file) do |contact|
       @list << Contact.new(Contact.parse_contact(contact))
      end
      return @list
+   else
+     return []
+   end
   end
 
   def add_line_to_file(line_in_array)
      # line_in_array=[]
      # line_in_array <<line
-    CSV.open(@file, "a") do |csv|
-       csv << line_in_array
-    end
+     if File.file?(@file)
+        CSV.open(@file, "a") do |csv|
+           csv << line_in_array
+         end
+       else
+        rewrite
+       end
   end
   def rewrite
     CSV.open(@file, "wb") do |csv|
-        for task in @list.tasks
-            csv << task
+        for contact in @list.tasks
+            csv << contact.return_an_array
          end
       end
   end
 end
+
+telephones = ContactsBook.new("PhoneBook.csv")
+telephones.add_contact({name:"Eugene Rakhimov",phone:"0221704992",email:"gin3002@gmail.com", group: "Family"})
+
