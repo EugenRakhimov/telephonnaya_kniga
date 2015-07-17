@@ -89,7 +89,7 @@ class TkBookFile
 end
 
 # telephones = ContactsBook.new("PhoneBook.csv")
-# telephones.add_contact({name:"Eugene Rakhimov",phone:"0221704992",email:"gin3002@gmail.com", group: "Family"})
+# telephones.add_contact()
 # telephones.add_contact({name:"Lani F",phone:"0221704992",email:"gin3002@gmail.com", group: "Family"})
 # p telephones.find_by_name("Eugene Rakhimov")
 # telephones.delete_contact(2)

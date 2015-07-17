@@ -48,11 +48,11 @@ class TelephonnayaController
   end
 
   def add_contact name
-    input = @telephonnaya_view.get_add_details
-    input_array = input.split("")
+    input_array = @telephonnaya_view.enter_phone_email
+     # = input.split("")
     phone = input_array[0]
     email = input_array[1]
-    @telephonnaya_model.add_person(name, phone, email)
+    @telephonnaya_model.add_contact({name:name,phone:phone,email:email, group: ""})
   end
 
   def delete_contact name

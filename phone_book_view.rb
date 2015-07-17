@@ -64,6 +64,7 @@ class PhoneBookView
     p "Excellent, beep boop, now enter zie Internet"
     internet = gets.chomp
     details_arr << internet
+    return details_arr
   end
 
 
