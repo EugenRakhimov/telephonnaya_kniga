@@ -52,7 +52,7 @@ class TelephonnayaController
      # = input.split("")
     phone = input_array[0]
     email = input_array[1]
-    @telephonnaya_model.add_contact({name:name,phone:phone,email:email, group: ""})
+    @telephonnaya_model.add_contact({name:name,phone:phone,email:email, group: nil})
   end
 
   def delete_contact name
