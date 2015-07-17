@@ -45,6 +45,14 @@ class ContactsBook
      @contacts.delete(contact_to_delete)
      @file.rewrite
    end
+   def delete_contact_by_name(name)
+     contacts_to_delete = []
+     contacts_to_delete = @contacts.select{|contact| contact.name == name}
+     for contact in contacts_to_delete
+       @contacts.delete(contact)
+     end
+     @file.rewrite
+   end
    def list_all_names
        return @contacts.sort{|x,y| x.name <=> y.name}
    end

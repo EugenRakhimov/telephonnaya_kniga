@@ -13,10 +13,14 @@ class TelephonnayaController
   end
 
   def open
+      @command = "Start"
+    while @command != "Exit"
     input = @telephonnaya_view.display_help #=> returns string "<command>: <name(optional)>"
     input_array = input.split(":")
     @command = input_array[0]
     @name = input_array[1].strip if input_array[1] != nil
+
+
 
     if @command == "Display"
       display_list
@@ -31,6 +35,7 @@ class TelephonnayaController
     else
       @telephonnaya_view.display_error
       @telephonnaya_view.display_help
+    end
     end
 
   end
@@ -56,7 +61,7 @@ class TelephonnayaController
   end
 
   def delete_contact name
-    @telephonnaya_model.delete_contact(name)
+    @telephonnaya_model.delete_contact_by_name(name)
   end
 
 end
