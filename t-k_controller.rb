@@ -46,7 +46,7 @@ class TelephonnayaController
   end
 
   def add_contact name
-    input = @telephonnaya_view.get_add_input
+    input = @telephonnaya_view.get_add_details
     input_array = input.split("")
     phone = input_array[0]
     email = input_array[1]
